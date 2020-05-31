@@ -1,0 +1,236 @@
+<div [ngSwitch] = "employeeI.type">
+    <div *ngSwitchCase="'Employee'">
+        <h1>Welcome to the TRMS Forms page {{employeeI.firstName}}</h1>
+        <h2>Your total available reimbursement allowed amount for this year is {{employeeI.amtAvail}}</h2>
+
+        <div>
+            <table>
+                <tr>
+                    <th>Employee ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Employee Type</th>
+                    <th>Event Type</th>
+                    <th>Event Start Date</th>
+                    <th>Event Location</th>
+                    <th>Event Description</th>
+                    <th>Event Cost</th>
+                    <th>Event Grading Format</th>
+                    <th>Event Justification</th>
+                </tr>
+                <tr>
+                    <td>{{employeeI.empID}}</td>
+                    <td>{{employeeI.firstName}}</td>
+                    <td>{{employeeI.lastName}}</td>
+                    <td>{{employeeI.email}}</td>
+                    <td>{{employeeI.type}}</td>
+                    <td><select [(ngModel)] = "form.eventType" required type = "text" >
+                        <option>Certification</option>
+                        <option>Technical Training</option>
+                        <option>University Courses</option>
+                        <option>Certification Preparation Classes</option>
+                        <option>Seminar</option>
+                        <option>Other</option>
+                    </select></td>
+                    <td><input [(ngModel)] = "form.eventTime"  type="datetime-local" id="date" required></td>
+                    <td><input [(ngModel)] = "form.location" required type = "text"></td>
+                    <td><input [(ngModel)] = "form.description"  required type = "text"></td>
+                    <td>$<input [(ngModel)] = "form.cost"  required type = "text"></td>
+                    <td><select [(ngModel)] = "form.benCoApproval" required  type="text">
+                        <option>Percentage Grading</option>
+                        <option>Letter Grading</option>
+                        <option>Mastery Grading</option>
+                        <option>Pass/Fail</option>
+                        <option>Standards Grading</option>
+                    </select></td>
+                    <td><input [(ngModel)] = "form.justification"  required  type = "text"></td>
+                </tr>
+            </table>
+            <div [hidden] = "isHidden">Your total reimbursement for this event is expected to be ${{reimbursement}}</div>
+            <button (click) = "onCalculate(form.eventType,form.cost)">Calculate Reimbursement Amount</button>
+            <input type = "submit"(click) = "onClick()">
+        </div>
+        <div *ngFor = "let form of formy">
+            <div *ngIf="employeeI.empID == form.empID">
+                {{form.empID}}{{form.formID}}
+            </div>
+        </div>
+    </div>
+
+
+    <!--This is the direct supervisor page-->
+    <div *ngSwitchCase="'Direct Supervisor'"> 
+        <h1>Welcome to the Direct Supervisor Page {{employeeI.firstName}}</h1>
+        <h2>Forms Awaiting Approval</h2>
+        <div *ngFor = "let forma of formy">
+            <div *ngIf = "employeeI.branch == forma.branch && forma.directSupervisorApproval == 'PENDING' && employeeI.department == forma.department">
+                <table>
+                    <tr>
+                        <th>Form ID</th>
+                        <th>Employee ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Employee Type</th>
+                        <th>Event Type</th>
+                        <th>Event Start Date</th>
+                        <th>Event Location</th>
+                        <th>Event Description</th>
+                        <th>Event Cost</th>
+                        <th>Reimbursement amount</th>
+                        <th>Event Grading Format</th>
+                        <th>Event Justification</th>
+                        <th>Branch</th>
+                        <th>Department</th>
+                    </tr>
+                    <tr>
+                        <td>{{forma.formID}}</td>
+                        <td>{{forma.empID}}</td>
+                        <td>{{forma.firstName}}</td>
+                        <td>{{forma.lastName}}</td>
+                        <td>{{forma.Email}}</td>
+                        <td>{{forma.type}}</td>
+                        <td>{{forma.eventType}}</td>
+                        <td>{{forma.eventTime}}</td>
+                        <td>{{forma.location}}</td>
+                        <td>{{forma.description}}</td>
+                        <td>{{forma.cost}}</td>
+                        <td>{{forma.rmbrsmntAmt}}</td>
+                        <td>{{forma.gradeFormat}}</td>
+                        <td>{{forma.justification}}</td>
+                        <td>{{forma.branch}}</td>
+                        <td>{{forma.department}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div> <!--maybe add a hidden to this who knows-->
+            <input [(ngModel)] = "update.formID" type = "text" placeholder="Please enter the Form ID">
+            <input [(ngModel)] = "update.directSupervisorApproval" type  = "radio" id = "accept" value = "Approved" name="approval">
+            <label for="accept">Approve</label>
+            <input [(ngModel)] = "update.directSupervisorApproval" type = "radio" id = "deny" value = "Denied" name="approval">
+            <label for="deny">Deny</label><br>
+            <textarea [(ngModel)] = "update.rejectionReason" rows = "4" cols = "50" placeholder = "Please provide denial reason"></textarea><br>
+            <input type = "submit"(click) = "onClick2()">
+        </div>
+    </div>
+
+
+
+    <!--This is the department head page-->
+    <div *ngSwitchCase="'Department Head'">
+        <h1>Welcome to the Department Head Page {{employeeI.firstName}}</h1>
+        <h2>Forms Awaiting Approval</h2>
+        <div *ngFor = "let forma of formy">
+            <div *ngIf = "forma.departmentHeadApproval == 'PENDING' && employeeI.department == forma.department">
+                <table>
+                    <tr>
+                        <th>Form ID</th>
+                        <th>Employee ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Employee Type</th>
+                        <th>Event Type</th>
+                        <th>Event Start Date</th>
+                        <th>Event Location</th>
+                        <th>Event Description</th>
+                        <th>Event Cost</th>
+                        <th>Reimbursement amount</th>
+                        <th>Event Grading Format</th>
+                        <th>Event Justification</th>
+                        <th>Branch</th>
+                        <th>Department</th>
+                    </tr>
+                    <tr>
+                        <td>{{forma.formID}}</td>
+                        <td>{{forma.empID}}</td>
+                        <td>{{forma.firstName}}</td>
+                        <td>{{forma.lastName}}</td>
+                        <td>{{forma.Email}}</td>
+                        <td>{{forma.type}}</td>
+                        <td>{{forma.eventType}}</td>
+                        <td>{{forma.eventTime}}</td>
+                        <td>{{forma.location}}</td>
+                        <td>{{forma.description}}</td>
+                        <td>{{forma.cost}}</td>
+                        <td>{{forma.rmbrsmntAmt}}</td>
+                        <td>{{forma.gradeFormat}}</td>
+                        <td>{{forma.justification}}</td>
+                        <td>{{forma.branch}}</td>
+                        <td>{{forma.department}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div> <!--maybe add a hidden to this who knows-->
+            <input [(ngModel)] = "update.formID" type = "text" placeholder="Please enter the Form ID">
+            <input [(ngModel)] = "update.departmentHeadApproval" type  = "radio" id = "accept" value = "Approved" name="approval">
+            <label for="accept">Approve</label>
+            <input [(ngModel)] = "update.departmentHeadApproval" type = "radio" id = "deny" value = "Denied" name="approval">
+            <label for="deny">Deny</label><br>
+            <textarea [(ngModel)] = "update.rejectionReason" rows = "4" cols = "50" placeholder = "Please provide denial reason"></textarea><br>
+            <input type = "submit"(click) = "onClick2()">
+        </div>
+    </div>
+
+
+
+    <!--This is the benco page-->
+    <div *ngSwitchCase="'Benefits Coordinator'">
+        <h1>Welcome to the Benefits Coordinator Page {{employeeI.firstName}}</h1>
+        <h2>Forms Awaiting Approval</h2>
+        <div *ngFor = "let forma of formy">
+            <div *ngIf = "forma.benCoApproval == 'PENDING' && employeeI.empID != forma.empID">
+                <table>
+                    <tr>
+                        <th>Form ID</th>
+                        <th>Employee ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Employee Type</th>
+                        <th>Event Type</th>
+                        <th>Event Start Date</th>
+                        <th>Event Location</th>
+                        <th>Event Description</th>
+                        <th>Event Cost</th>
+                        <th>Reimbursement amount</th>
+                        <th>Event Grading Format</th>
+                        <th>Event Justification</th>
+                        <th>Branch</th>
+                        <th>Department</th>
+                    </tr>
+                    <tr>
+                        <td>{{forma.formID}}</td>
+                        <td>{{forma.empID}}</td>
+                        <td>{{forma.firstName}}</td>
+                        <td>{{forma.lastName}}</td>
+                        <td>{{forma.Email}}</td>
+                        <td>{{forma.type}}</td>
+                        <td>{{forma.eventType}}</td>
+                        <td>{{forma.eventTime}}</td>
+                        <td>{{forma.location}}</td>
+                        <td>{{forma.description}}</td>
+                        <td>{{forma.cost}}</td>
+                        <td>{{forma.rmbrsmntAmt}}</td>
+                        <td>{{forma.gradeFormat}}</td>
+                        <td>{{forma.justification}}</td>
+                        <td>{{forma.branch}}</td>
+                        <td>{{forma.department}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div> <!--maybe add a hidden to this who knows-->
+            <input [(ngModel)] = "update.formID" type = "text" placeholder="Please enter the Form ID">
+            <input [(ngModel)] = "update.benCoApproval" type  = "radio" id = "accept" value = "Approved" name="approval">
+            <label for="accept">Approve</label>
+            <input [(ngModel)] = "update.benCoApproval" type = "radio" id = "deny" value = "Denied" name="approval">
+            <label for="deny">Deny</label><br>
+            <textarea [(ngModel)] = "update.rejectionReason" rows = "4" cols = "50" placeholder = "Please provide denial reason"></textarea><br>
+            <input type = "submit"(click) = "onClick2()">
+        </div>
+    </div>
+</div>
