@@ -264,4 +264,9 @@ export class EmployeesComponent implements OnInit {
   onClick5(){
     console.log(this.approved.image);
   }
+
+  isHidden1 = true;
+  onClick6(){
+    this.isHidden1 = false;
+  }
 }

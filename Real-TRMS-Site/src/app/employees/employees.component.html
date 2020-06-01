@@ -234,6 +234,47 @@
             <textarea [(ngModel)] = "update.rejectionReason" rows = "4" cols = "50" placeholder = "Please provide denial reason"></textarea><br>
             <input type = "submit"(click) = "onClick2()">
         </div>
+        <div [hidden] = "isHidden1">
+            <table>
+                <tr>
+                    <th>Grade Format ID</th>
+                    <th>Grade Format Type</th>
+                    <th>Grade Format Pass Requirement</th>
+                    <th>Presentation Required?</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Percentage Grading</td>
+                    <td>>70%</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Letter Grading</td>
+                    <td>C</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Mastery Grading</td>
+                    <td>Passers</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Pass/Fail</td>
+                    <td>Pass</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Standards Grading</td>
+                    <td>>70%</td>
+                    <td>No</td>
+                </tr>
+            </table>
+        </div>
+        <button (click) = "onClick6()">Grading lookup Table</button>
         <div>
             <h3>Request Additonal Information?</h3>
             <input [(ngModel)] = "message.formID" type = "text" placeholder = "Please enter the Form ID">
@@ -498,6 +539,47 @@
             <textarea [(ngModel)] = "update.rejectionReason" rows = "4" cols = "50" placeholder = "Please provide denial reason"></textarea><br>
             <input type = "submit"(click) = "onClick2()">
         </div>
+        <div [hidden] = "isHidden1">
+            <table>
+                <tr>
+                    <th>Grade Format ID</th>
+                    <th>Grade Format Type</th>
+                    <th>Grade Format Pass Requirement</th>
+                    <th>Presentation Required?</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Percentage Grading</td>
+                    <td>>70%</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Letter Grading</td>
+                    <td>C</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Mastery Grading</td>
+                    <td>Passers</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Pass/Fail</td>
+                    <td>Pass</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Standards Grading</td>
+                    <td>>70%</td>
+                    <td>No</td>
+                </tr>
+            </table>
+        </div>
+        <button (click) = "onClick6()">Grading lookup Table</button>
         <div>
             <h3>Request Additonal Information?</h3>
             <input [(ngModel)] = "message.formID" type = "text" placeholder = "Please enter the Form ID">
@@ -764,6 +846,48 @@
             <textarea [(ngModel)] = "update.rejectionReason" rows = "4" cols = "50" placeholder = "Please provide denial reason"></textarea><br>
             <input type = "submit"(click) = "onClick2()">
         </div>
+        <div [hidden] = "isHidden1">
+            <table>
+                <tr>
+                    <th>Grade Format ID</th>
+                    <th>Grade Format Type</th>
+                    <th>Grade Format Pass Requirement</th>
+                    <th>Presentation Required?</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Percentage Grading</td>
+                    <td>>70%</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Letter Grading</td>
+                    <td>C</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Mastery Grading</td>
+                    <td>Passers</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Pass/Fail</td>
+                    <td>Pass</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Standards Grading</td>
+                    <td>>70%</td>
+                    <td>No</td>
+                </tr>
+            </table>
+        </div>
+        <button (click) = "onClick6()">Grading lookup Table</button>
+        
         <div>
             <h3>Request Additonal Information? Update amount available? (Leave the amounts available blank if you are not updating the reimbursement amount)</h3>
             <input [(ngModel)] = "message.formID" type = "text" placeholder = "Please enter the Form ID">

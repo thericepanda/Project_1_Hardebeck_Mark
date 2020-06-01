@@ -26,8 +26,6 @@ INSERT INTO EMPLOYEES VALUES(EMPID.NEXTVAL,'paul','mccartney','Mark4','Hardebeck
 INSERT INTO EMPLOYEES VALUES(EMPID.NEXTVAL,'george','harrison','Mark5','Hardebeck','mhardebeck5@gmail.com','Employee',1000,'Tech','California');
 
 
-
-
 CREATE SEQUENCE EMPID;
 
 --Update Amount Avavilable
