@@ -23,7 +23,8 @@ INSERT INTO EMPLOYEES VALUES(EMPID.NEXTVAL,'bob' ,'dylan','Mark1','Hardebeck','m
 INSERT INTO EMPLOYEES VALUES(EMPID.NEXTVAL,'john','lennon','Mark2','Hardebeck','mhardebeck2@gmail.com','Department Head',1000,'Sales','California');
 INSERT INTO EMPLOYEES VALUES(EMPID.NEXTVAL,'ringo','starr','Mark3','Hardebeck','mhardebeck3@gmail.com','Department Head',1000,'Tech','California');
 INSERT INTO EMPLOYEES VALUES(EMPID.NEXTVAL,'paul','mccartney','Mark4','Hardebeck','mhardebeck4@gmail.com','Direct Supervisor',1000,'Sales','California');
-INSERT INTO EMPLOYEES VALUES(EMPID.NEXTVAL,'george','harrison','Mark5','Hardebeck','mhardebeck5@gmail.com','Employee',1000,'Sales','California');
+INSERT INTO EMPLOYEES VALUES(EMPID.NEXTVAL,'george','harrison','Mark5','Hardebeck','mhardebeck5@gmail.com','Employee',1000,'Tech','California');
+
 
 
 

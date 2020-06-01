@@ -69,7 +69,7 @@
                         <tr>
                             <td>{{form.formID}}</td>
                             <td>{{form.eventType}}</td>
-                            <td>{{form.eventTime}}</td>
+                            <td>{{form.eventTime | date:'medium'}}</td>
                             <td>{{form.cost}}</td>
                             <td>{{form.directSupervisorApproval}}</td>
                             <td>{{form.departmentHeadApproval}}</td>
@@ -95,7 +95,7 @@
                         <tr>
                             <td>{{form.formID}}</td>
                             <td>{{form.eventType}}</td>
-                            <td>{{form.eventTime}}</td>
+                            <td>{{form.eventTime | date:'medium'}}</td>
                             <td>{{form.cost}}</td>
                             <td>{{form.directSupervisorApproval}}</td>
                             <td>{{form.departmentHeadApproval}}</td>
@@ -123,7 +123,7 @@
                         <tr>
                             <td>{{form.formID}}</td>
                             <td>{{form.eventType}}</td>
-                            <td>{{form.eventTime}}</td>
+                            <td>{{form.eventTime | date:'medium'}}</td>
                             <td>{{form.cost}}</td>
                             <td>{{form.directSupervisorApproval}}</td>
                             <td>{{form.departmentHeadApproval}}</td>
@@ -214,7 +214,7 @@
                         <td>{{forma.Email}}</td>
                         <td>{{forma.type}}</td>
                         <td>{{forma.eventType}}</td>
-                        <td>{{forma.eventTime}}</td>
+                        <td>{{forma.eventTime | date:'medium'}}</td>
                         <td>{{forma.location}}</td>
                         <td>{{forma.description}}</td>
                         <td>{{forma.cost}}</td>
@@ -243,7 +243,7 @@
         </div>
         <div *ngFor = "let message of messages">
             <div *ngIf = "message.urgent == 1">
-                <h3>Urgent Reimbursement Requests</h3>
+                <h3 style = "color: red;">Urgent Reimbursement Requests</h3>
                    Employee ID of the urgent request: {{message.empID}}
             </div>
         </div>
@@ -330,7 +330,7 @@
                         <tr>
                             <td>{{form.formID}}</td>
                             <td>{{form.eventType}}</td>
-                            <td>{{form.eventTime}}</td>
+                            <td>{{form.eventTime | date:'medium'}}</td>
                             <td>{{form.cost}}</td>
                             <td>{{form.directSupervisorApproval}}</td>
                             <td>{{form.departmentHeadApproval}}</td>
@@ -356,7 +356,7 @@
                         <tr>
                             <td>{{form.formID}}</td>
                             <td>{{form.eventType}}</td>
-                            <td>{{form.eventTime}}</td>
+                            <td>{{form.eventTime | date:'medium'}}</td>
                             <td>{{form.cost}}</td>
                             <td>{{form.directSupervisorApproval}}</td>
                             <td>{{form.departmentHeadApproval}}</td>
@@ -384,7 +384,7 @@
                         <tr>
                             <td>{{form.formID}}</td>
                             <td>{{form.eventType}}</td>
-                            <td>{{form.eventTime}}</td>
+                            <td>{{form.eventTime | date:'medium'}}</td>
                             <td>{{form.cost}}</td>
                             <td>{{form.directSupervisorApproval}}</td>
                             <td>{{form.departmentHeadApproval}}</td>
@@ -476,7 +476,7 @@
                         <td>{{forma.lastName}}</td>
                         <td>{{forma.Email}}</td>
                         <td>{{forma.type}}</td>
-                        <td>{{forma.eventType}}</td>
+                        <td>{{forma.eventType | date:'medium'}}</td>
                         <td>{{forma.eventTime}}</td>
                         <td>{{forma.location}}</td>
                         <td>{{forma.description}}</td>
@@ -507,7 +507,7 @@
         </div>
         <div *ngFor = "let message of messages">
             <div *ngIf = "message.urgent == 1">
-                <h3>Urgent Reimbursement Requests</h3>
+                <h3 style = "color: red;">Urgent Reimbursement Requests</h3>
                    Employee ID of the urgent request: {{message.empID}}
             </div>
         </div>
@@ -594,7 +594,7 @@
                         <tr>
                             <td>{{form.formID}}</td>
                             <td>{{form.eventType}}</td>
-                            <td>{{form.eventTime}}</td>
+                            <td>{{form.eventTime | date:'medium'}}</td>
                             <td>{{form.cost}}</td>
                             <td>{{form.directSupervisorApproval}}</td>
                             <td>{{form.departmentHeadApproval}}</td>
@@ -742,7 +742,7 @@
                         <td>{{forma.Email}}</td>
                         <td>{{forma.type}}</td>
                         <td>{{forma.eventType}}</td>
-                        <td>{{forma.eventTime}}</td>
+                        <td>{{forma.eventTime | date:'medium'}}</td>
                         <td>{{forma.location}}</td>
                         <td>{{forma.description}}</td>
                         <td>{{forma.cost}}</td>
@@ -775,7 +775,7 @@
         </div>
         <div *ngFor = "let message of messages">
             <div *ngIf = "message.urgent == 1">
-                <h3>Urgent Reimbursement Requests</h3>
+                <h3 style = "color: red;">Urgent Reimbursement Requests</h3>
                    Employee ID of the urgent request: {{message.empID}}
             </div>
         </div>
@@ -862,7 +862,7 @@
                         <tr>
                             <td>{{form.formID}}</td>
                             <td>{{form.eventType}}</td>
-                            <td>{{form.eventTime}}</td>
+                            <td>{{form.eventTime | date:'medium'}}</td>
                             <td>{{form.cost}}</td>
                             <td>{{form.directSupervisorApproval}}</td>
                             <td>{{form.departmentHeadApproval}}</td>
@@ -888,7 +888,7 @@
                         <tr>
                             <td>{{form.formID}}</td>
                             <td>{{form.eventType}}</td>
-                            <td>{{form.eventTime}}</td>
+                            <td>{{form.eventTime | date:'medium'}}</td>
                             <td>{{form.cost}}</td>
                             <td>{{form.directSupervisorApproval}}</td>
                             <td>{{form.departmentHeadApproval}}</td>
@@ -916,7 +916,7 @@
                         <tr>
                             <td>{{form.formID}}</td>
                             <td>{{form.eventType}}</td>
-                            <td>{{form.eventTime}}</td>
+                            <td>{{form.eventTime | date:'medium'}}</td>
                             <td>{{form.cost}}</td>
                             <td>{{form.directSupervisorApproval}}</td>
                             <td>{{form.departmentHeadApproval}}</td>
