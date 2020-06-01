@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Employees } from './Employees';
 import { Observable } from 'rxjs';
+import { Messages } from './Messages';
 
 @Injectable({
   providedIn: 'root'
@@ -9,13 +10,13 @@ import { Observable } from 'rxjs';
 export class EmployeesService {
 
   employee: Employees = {
-    empID: null,
+    empID: 3,
     username: 'a',
     password: 'p',
     firstName: 'c',
     lastName: 'd',
     email: 'e',
-    type: 'Direct Supervisor',
+    type: 'Benefits Coordinator',
     amtAvail: 1000,
     department: 'Sales',
     branch: 'California'
@@ -26,6 +27,10 @@ export class EmployeesService {
 
     getEmployeesInfo():Observable<Employees[]>{
       return this.httpclient.get<Employees[]>('http://localhost:8080/Real_TRMS_Project/employees');
+    }
+
+    getMessages():Observable<Messages[]>{
+      return this.httpclient.get<Messages[]>('http://localhost:8080/Real_TRMS_Project/messages');
     }
 
     setIndividualEmployee(employee):Observable<Employees>{

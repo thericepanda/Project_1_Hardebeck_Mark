@@ -1,9 +1,11 @@
+<div><button type = "button"(click) = "onClick0()">Logout</button></div>
 <div [ngSwitch] = "employeeI.type">
     <div *ngSwitchCase="'Employee'">
-        <h1>Welcome to the TRMS Forms page {{employeeI.firstName}}</h1>
-        <h2>Your total available reimbursement allowed amount for this year is {{employeeI.amtAvail}}</h2>
+        <h1>Welcome to the Tuition Reimbursement Forms page, {{employeeI.firstName}}</h1>
+        <h2>Your total available reimbursement allowed amount for this year is ${{employeeI.amtAvail}}</h2>
 
         <div>
+            <h3>Fill out this form to make a reimbursement request</h3>
             <table>
                 <tr>
                     <th>Employee ID</th>
@@ -51,9 +53,131 @@
             <button (click) = "onCalculate(form.eventType,form.cost)">Calculate Reimbursement Amount</button>
             <input type = "submit"(click) = "onClick()">
         </div>
-        <div *ngFor = "let form of formy">
-            <div *ngIf="employeeI.empID == form.empID">
-                {{form.empID}}{{form.formID}}
+        <div> <h3>Pending Reimbursement Requests</h3>
+            <div *ngFor = "let form of formy">
+                <div *ngIf="employeeI.empID == form.empID && form.benCoApproval == 'PENDING' && form.directSupervisorApproval != 'Denied' && form.departmentHeadApproval !='Denied'">
+                    <table>
+                        <tr>
+                            <th>Form ID</th>
+                            <th>Event Type</th>
+                            <th>Event Start Date</th>
+                            <th>Event Cost ($)</th>
+                            <th>Direct Supervisor Approval</th>
+                            <th>Department Head Approval</th>
+                            <th>Benefits Coordinator Approval</th>
+                        </tr>
+                        <tr>
+                            <td>{{form.formID}}</td>
+                            <td>{{form.eventType}}</td>
+                            <td>{{form.eventTime}}</td>
+                            <td>{{form.cost}}</td>
+                            <td>{{form.directSupervisorApproval}}</td>
+                            <td>{{form.departmentHeadApproval}}</td>
+                            <td>{{form.benCoApproval}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div> <h3>Approved Reimbursement Requests</h3>
+            <div *ngFor = "let form of formy">
+                <div *ngIf="form.benCoApproval == 'Approved' && employeeI.empID == form.empID">
+                    <table>
+                        <tr>
+                            <th>Form ID</th>
+                            <th>Event Type</th>
+                            <th>Event Start Date</th>
+                            <th>Event Cost ($)</th>
+                            <th>Direct Supervisor Approval</th>
+                            <th>Department Head Approval</th>
+                            <th>Benefits Coordinator Approval</th>
+                        </tr>
+                        <tr>
+                            <td>{{form.formID}}</td>
+                            <td>{{form.eventType}}</td>
+                            <td>{{form.eventTime}}</td>
+                            <td>{{form.cost}}</td>
+                            <td>{{form.directSupervisorApproval}}</td>
+                            <td>{{form.departmentHeadApproval}}</td>
+                            <td>{{form.benCoApproval}}</td>
+                        </tr>
+                    </table>
+                    <input [(ngModel)]  = 'approved.image' type = 'file' name = 'browse'>
+                    <input type = 'submit'(click) = 'onClick5()'>
+                </div>
+            </div>
+        </div>
+        <div> <h3>Denied Reimbursement Requests</h3>
+            <div *ngFor = "let form of formy">
+                <div *ngIf="(form.benCoApproval == 'Denied' || form.directSupervisorApproval == 'Denied' || form.departmentHeadApproval == 'Denied') && employeeI.empID == form.empID">
+                    <table>
+                        <tr>
+                            <th>Form ID</th>
+                            <th>Event Type</th>
+                            <th>Event Start Date</th>
+                            <th>Event Cost ($)</th>
+                            <th>Direct Supervisor Approval</th>
+                            <th>Department Head Approval</th>
+                            <th>Benefits Coordinator Approval</th>
+                        </tr>
+                        <tr>
+                            <td>{{form.formID}}</td>
+                            <td>{{form.eventType}}</td>
+                            <td>{{form.eventTime}}</td>
+                            <td>{{form.cost}}</td>
+                            <td>{{form.directSupervisorApproval}}</td>
+                            <td>{{form.departmentHeadApproval}}</td>
+                            <td>{{form.benCoApproval}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div><h3>Messages</h3>
+            <div *ngFor = "let messagee of messages">
+                <div *ngIf = "messagee.empID == employeeI.empID && messagee.response == 1 && messagee.newAmt == messagee.oldAmt">
+                    <table>
+                        <tr>
+                            <th>Form ID</th>
+                            <th>Additional Information Request</th>
+                        </tr>
+                        <tr>
+                            <td>{{messagee.formID}}</td>
+                            <td>{{messagee.additionalInfo}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div>
+                    <h4>Input Additional Information</h4>
+                    <input [(ngModel)] = "message.formID" type = "text" placeholder = "Please enter the Form ID"><br>
+                    <textarea [(ngModel)] = "message.additionalInfo" type = "text" placeholder = "Please enter additional Information"></textarea><br>
+                    <input type = "submit"(click) = "onClick4()">
+            </div>
+        </div>
+        <div><h3>Altered Reimbursement Amounts</h3>
+            <div *ngFor = "let messagee of messages">
+                <div *ngIf = "messagee.empID == employeeI.empID && messagee.response == 1 && messagee.newAmt != messagee.oldAmt">
+                    <table>
+                        <tr>
+                            <th>Form ID</th>
+                            <th>Orignal Reimbursement Amount</th>
+                            <th>Altered Reimbursement Amount</th>
+                        </tr>
+                        <tr>
+                            <td>{{messagee.formID}}</td>
+                            <td>{{messagee.oldAmt}}</td>
+                            <td>{{messagee.newAmt}}</td>
+                        </tr>
+                    </table>
+                    <div>Do you accept the change? (Rejecting will remove your reimbursement request)<br><br>
+                        <input type  = "radio" id = "accept" name="approval">
+                        <label for="accept">Accept</label>
+                        <input type = "radio" id = "deny" name="approval">
+                        <label for="deny">Reject</label><br><br>
+                        <input type = "submit">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -64,7 +188,7 @@
         <h1>Welcome to the Direct Supervisor Page {{employeeI.firstName}}</h1>
         <h2>Forms Awaiting Approval</h2>
         <div *ngFor = "let forma of formy">
-            <div *ngIf = "employeeI.branch == forma.branch && forma.directSupervisorApproval == 'PENDING' && employeeI.department == forma.department">
+            <div *ngIf = "employeeI.branch == forma.branch && forma.directSupervisorApproval == 'PENDING' && employeeI.department == forma.department && forma.type != 'Benefits Coordinator' && forma.type != 'Department Head'">
                 <table>
                     <tr>
                         <th>Form ID</th>
@@ -81,8 +205,6 @@
                         <th>Reimbursement amount</th>
                         <th>Event Grading Format</th>
                         <th>Event Justification</th>
-                        <th>Branch</th>
-                        <th>Department</th>
                     </tr>
                     <tr>
                         <td>{{forma.formID}}</td>
@@ -99,8 +221,6 @@
                         <td>{{forma.rmbrsmntAmt}}</td>
                         <td>{{forma.gradeFormat}}</td>
                         <td>{{forma.justification}}</td>
-                        <td>{{forma.branch}}</td>
-                        <td>{{forma.department}}</td>
                     </tr>
                 </table>
             </div>
@@ -114,6 +234,213 @@
             <textarea [(ngModel)] = "update.rejectionReason" rows = "4" cols = "50" placeholder = "Please provide denial reason"></textarea><br>
             <input type = "submit"(click) = "onClick2()">
         </div>
+        <div>
+            <h3>Request Additonal Information?</h3>
+            <input [(ngModel)] = "message.formID" type = "text" placeholder = "Please enter the Form ID">
+            <input [(ngModel)] = "message.empID" type = "text" placeholder = "Please enter Employee ID"><br>
+            <textarea [(ngModel)] = "message.additionalInfo" type = "text" placeholder = "Please enter what you would like additonal information on"></textarea><br>
+            <input type = "submit"(click) = "onClick3()">
+        </div>
+        <div *ngFor = "let message of messages">
+            <div *ngIf = "message.urgent == 1">
+                <h3>Urgent Reimbursement Requests</h3>
+                   Employee ID of the urgent request: {{message.empID}}
+            </div>
+        </div>
+        <div *ngFor = "let message of messages">
+            <div *ngIf = "message.response == 2">
+                <h3>Additonal Information Responses</h3>
+                <table>
+                    <tr>
+                        <th>Form ID</th>
+                        <th>Employee ID</th>
+                        <th>Response</th>
+                    </tr>
+                    <tr>
+                        <td>{{message.formID}}</td>
+                        <td>{{message.empID}}</td>
+                        <td>{{message.additionalInfo}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div>
+            <h2>Your total available reimbursement allowed amount for this year is ${{employeeI.amtAvail}}</h2>
+            <h3>Fill out this form to make a reimbursement request</h3>
+            <table>
+                <tr>
+                    <th>Employee ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Employee Type</th>
+                    <th>Event Type</th>
+                    <th>Event Start Date</th>
+                    <th>Event Location</th>
+                    <th>Event Description</th>
+                    <th>Event Cost</th>
+                    <th>Event Grading Format</th>
+                    <th>Event Justification</th>
+                </tr>
+                <tr>
+                    <td>{{employeeI.empID}}</td>
+                    <td>{{employeeI.firstName}}</td>
+                    <td>{{employeeI.lastName}}</td>
+                    <td>{{employeeI.email}}</td>
+                    <td>{{employeeI.type}}</td>
+                    <td><select [(ngModel)] = "form.eventType" required type = "text" >
+                        <option>Certification</option>
+                        <option>Technical Training</option>
+                        <option>University Courses</option>
+                        <option>Certification Preparation Classes</option>
+                        <option>Seminar</option>
+                        <option>Other</option>
+                    </select></td>
+                    <td><input [(ngModel)] = "form.eventTime"  type="datetime-local" id="date" required></td>
+                    <td><input [(ngModel)] = "form.location" required type = "text"></td>
+                    <td><input [(ngModel)] = "form.description"  required type = "text"></td>
+                    <td>$<input [(ngModel)] = "form.cost"  required type = "text"></td>
+                    <td><select [(ngModel)] = "form.benCoApproval" required  type="text">
+                        <option>Percentage Grading</option>
+                        <option>Letter Grading</option>
+                        <option>Mastery Grading</option>
+                        <option>Pass/Fail</option>
+                        <option>Standards Grading</option>
+                    </select></td>
+                    <td><input [(ngModel)] = "form.justification"  required  type = "text"></td>
+                </tr>
+            </table>
+            <div [hidden] = "isHidden">Your total reimbursement for this event is expected to be ${{reimbursement}}</div>
+            <button (click) = "onCalculate(form.eventType,form.cost)">Calculate Reimbursement Amount</button>
+            <input type = "submit"(click) = "onClick()">
+        </div>
+        <div> <h3>Pending Reimbursement Requests</h3>
+            <div *ngFor = "let form of formy">
+                <div *ngIf="employeeI.empID == form.empID && form.benCoApproval == 'PENDING' && form.directSupervisorApproval != 'Denied' && form.departmentHeadApproval !='Denied'">
+                    <table>
+                        <tr>
+                            <th>Form ID</th>
+                            <th>Event Type</th>
+                            <th>Event Start Date</th>
+                            <th>Event Cost ($)</th>
+                            <th>Direct Supervisor Approval</th>
+                            <th>Department Head Approval</th>
+                            <th>Benefits Coordinator Approval</th>
+                        </tr>
+                        <tr>
+                            <td>{{form.formID}}</td>
+                            <td>{{form.eventType}}</td>
+                            <td>{{form.eventTime}}</td>
+                            <td>{{form.cost}}</td>
+                            <td>{{form.directSupervisorApproval}}</td>
+                            <td>{{form.departmentHeadApproval}}</td>
+                            <td>{{form.benCoApproval}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div> <h3>Approved Reimbursement Requests</h3>
+            <div *ngFor = "let form of formy">
+                <div *ngIf="form.benCoApproval == 'Approved' && employeeI.empID == form.empID">
+                    <table>
+                        <tr>
+                            <th>Form ID</th>
+                            <th>Event Type</th>
+                            <th>Event Start Date</th>
+                            <th>Event Cost ($)</th>
+                            <th>Direct Supervisor Approval</th>
+                            <th>Department Head Approval</th>
+                            <th>Benefits Coordinator Approval</th>
+                        </tr>
+                        <tr>
+                            <td>{{form.formID}}</td>
+                            <td>{{form.eventType}}</td>
+                            <td>{{form.eventTime}}</td>
+                            <td>{{form.cost}}</td>
+                            <td>{{form.directSupervisorApproval}}</td>
+                            <td>{{form.departmentHeadApproval}}</td>
+                            <td>{{form.benCoApproval}}</td>
+                        </tr>
+                    </table>
+                    <input [(ngModel)]  = 'approved.image' type = 'file' name = 'browse'>
+                    <input type = 'submit'(click) = 'onClick5()'>
+                </div>
+            </div>
+        </div>
+        <div> <h3>Denied Reimbursement Requests</h3>
+            <div *ngFor = "let form of formy">
+                <div *ngIf="(form.benCoApproval == 'Denied' || form.directSupervisorApproval == 'Denied' || form.departmentHeadApproval == 'Denied') && employeeI.empID == form.empID">
+                    <table>
+                        <tr>
+                            <th>Form ID</th>
+                            <th>Event Type</th>
+                            <th>Event Start Date</th>
+                            <th>Event Cost ($)</th>
+                            <th>Direct Supervisor Approval</th>
+                            <th>Department Head Approval</th>
+                            <th>Benefits Coordinator Approval</th>
+                        </tr>
+                        <tr>
+                            <td>{{form.formID}}</td>
+                            <td>{{form.eventType}}</td>
+                            <td>{{form.eventTime}}</td>
+                            <td>{{form.cost}}</td>
+                            <td>{{form.directSupervisorApproval}}</td>
+                            <td>{{form.departmentHeadApproval}}</td>
+                            <td>{{form.benCoApproval}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div><h3>Messages</h3>
+            <div *ngFor = "let messagee of messages">
+                <div *ngIf = "messagee.empID == employeeI.empID && messagee.response == 1 && messagee.newAmt == messagee.oldAmt">
+                    <table>
+                        <tr>
+                            <th>Form ID</th>
+                            <th>Additional Information Request</th>
+                        </tr>
+                        <tr>
+                            <td>{{messagee.formID}}</td>
+                            <td>{{messagee.additionalInfo}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div>
+                    <h4>Input Additional Information</h4>
+                    <input [(ngModel)] = "message.formID" type = "text" placeholder = "Please enter the Form ID"><br>
+                    <textarea [(ngModel)] = "message.additionalInfo" type = "text" placeholder = "Please enter additional Information"></textarea><br>
+                    <input type = "submit"(click) = "onClick4()">
+            </div>
+        </div>
+        <div><h3>Altered Reimbursement Amounts</h3>
+            <div *ngFor = "let messagee of messages">
+                <div *ngIf = "messagee.empID == employeeI.empID && messagee.response == 1 && messagee.newAmt != messagee.oldAmt">
+                    <table>
+                        <tr>
+                            <th>Form ID</th>
+                            <th>Orignal Reimbursement Amount</th>
+                            <th>Altered Reimbursement Amount</th>
+                        </tr>
+                        <tr>
+                            <td>{{messagee.formID}}</td>
+                            <td>{{messagee.oldAmt}}</td>
+                            <td>{{messagee.newAmt}}</td>
+                        </tr>
+                    </table>
+                    <div>Do you accept the change? (Rejecting will remove your reimbursement request)<br><br>
+                        <input type  = "radio" id = "accept" name="approval">
+                        <label for="accept">Accept</label>
+                        <input type = "radio" id = "deny" name="approval">
+                        <label for="deny">Reject</label><br><br>
+                        <input type = "submit">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -123,7 +450,7 @@
         <h1>Welcome to the Department Head Page {{employeeI.firstName}}</h1>
         <h2>Forms Awaiting Approval</h2>
         <div *ngFor = "let forma of formy">
-            <div *ngIf = "forma.departmentHeadApproval == 'PENDING' && employeeI.department == forma.department">
+            <div *ngIf = "forma.departmentHeadApproval == 'PENDING' && employeeI.department == forma.department && forma.directSupervisorApproval != 'Denied' && forma.type != 'Benefits Coordinator'">
                 <table>
                     <tr>
                         <th>Form ID</th>
@@ -140,8 +467,7 @@
                         <th>Reimbursement amount</th>
                         <th>Event Grading Format</th>
                         <th>Event Justification</th>
-                        <th>Branch</th>
-                        <th>Department</th>
+                        <th>Direct Supervisor Approval</th>
                     </tr>
                     <tr>
                         <td>{{forma.formID}}</td>
@@ -158,8 +484,7 @@
                         <td>{{forma.rmbrsmntAmt}}</td>
                         <td>{{forma.gradeFormat}}</td>
                         <td>{{forma.justification}}</td>
-                        <td>{{forma.branch}}</td>
-                        <td>{{forma.department}}</td>
+                        <td>{{forma.directSupervisorApproval}}</td>
                     </tr>
                 </table>
             </div>
@@ -173,6 +498,213 @@
             <textarea [(ngModel)] = "update.rejectionReason" rows = "4" cols = "50" placeholder = "Please provide denial reason"></textarea><br>
             <input type = "submit"(click) = "onClick2()">
         </div>
+        <div>
+            <h3>Request Additonal Information?</h3>
+            <input [(ngModel)] = "message.formID" type = "text" placeholder = "Please enter the Form ID">
+            <input [(ngModel)] = "message.empID" type = "text" placeholder = "Please enter Employee ID"><br>
+            <textarea [(ngModel)] = "message.additionalInfo" type = "text" placeholder = "Please enter what you would like additonal information on"></textarea><br>
+            <input type = "submit"(click) = "onClick3()">
+        </div>
+        <div *ngFor = "let message of messages">
+            <div *ngIf = "message.urgent == 1">
+                <h3>Urgent Reimbursement Requests</h3>
+                   Employee ID of the urgent request: {{message.empID}}
+            </div>
+        </div>
+        <div *ngFor = "let message of messages">
+            <div *ngIf = "message.response == 2">
+                <h3>Additonal Information Responses</h3>
+                <table>
+                    <tr>
+                        <th>Form ID</th>
+                        <th>Employee ID</th>
+                        <th>Response</th>
+                    </tr>
+                    <tr>
+                        <td>{{message.formID}}</td>
+                        <td>{{message.empID}}</td>
+                        <td>{{message.additionalInfo}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div>
+            <h2>Your total available reimbursement allowed amount for this year is ${{employeeI.amtAvail}}</h2>
+            <h3>Fill out this form to make a reimbursement request</h3>
+            <table>
+                <tr>
+                    <th>Employee ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Employee Type</th>
+                    <th>Event Type</th>
+                    <th>Event Start Date</th>
+                    <th>Event Location</th>
+                    <th>Event Description</th>
+                    <th>Event Cost</th>
+                    <th>Event Grading Format</th>
+                    <th>Event Justification</th>
+                </tr>
+                <tr>
+                    <td>{{employeeI.empID}}</td>
+                    <td>{{employeeI.firstName}}</td>
+                    <td>{{employeeI.lastName}}</td>
+                    <td>{{employeeI.email}}</td>
+                    <td>{{employeeI.type}}</td>
+                    <td><select [(ngModel)] = "form.eventType" required type = "text" >
+                        <option>Certification</option>
+                        <option>Technical Training</option>
+                        <option>University Courses</option>
+                        <option>Certification Preparation Classes</option>
+                        <option>Seminar</option>
+                        <option>Other</option>
+                    </select></td>
+                    <td><input [(ngModel)] = "form.eventTime"  type="datetime-local" id="date" required></td>
+                    <td><input [(ngModel)] = "form.location" required type = "text"></td>
+                    <td><input [(ngModel)] = "form.description"  required type = "text"></td>
+                    <td>$<input [(ngModel)] = "form.cost"  required type = "text"></td>
+                    <td><select [(ngModel)] = "form.benCoApproval" required  type="text">
+                        <option>Percentage Grading</option>
+                        <option>Letter Grading</option>
+                        <option>Mastery Grading</option>
+                        <option>Pass/Fail</option>
+                        <option>Standards Grading</option>
+                    </select></td>
+                    <td><input [(ngModel)] = "form.justification"  required  type = "text"></td>
+                </tr>
+            </table>
+            <div [hidden] = "isHidden">Your total reimbursement for this event is expected to be ${{reimbursement}}</div>
+            <button (click) = "onCalculate(form.eventType,form.cost)">Calculate Reimbursement Amount</button>
+            <input type = "submit"(click) = "onClick()">
+        </div>
+        <div> <h3>Pending Reimbursement Requests</h3>
+            <div *ngFor = "let form of formy">
+                <div *ngIf="employeeI.empID == form.empID && form.benCoApproval == 'PENDING' && form.directSupervisorApproval != 'Denied' && form.departmentHeadApproval !='Denied'">
+                    <table>
+                        <tr>
+                            <th>Form ID</th>
+                            <th>Event Type</th>
+                            <th>Event Start Date</th>
+                            <th>Event Cost ($)</th>
+                            <th>Direct Supervisor Approval</th>
+                            <th>Department Head Approval</th>
+                            <th>Benefits Coordinator Approval</th>
+                        </tr>
+                        <tr>
+                            <td>{{form.formID}}</td>
+                            <td>{{form.eventType}}</td>
+                            <td>{{form.eventTime}}</td>
+                            <td>{{form.cost}}</td>
+                            <td>{{form.directSupervisorApproval}}</td>
+                            <td>{{form.departmentHeadApproval}}</td>
+                            <td>{{form.benCoApproval}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div> <h3>Approved Reimbursement Requests</h3>
+            <div *ngFor = "let form of formy">
+                <div *ngIf="form.benCoApproval == 'Approved' && employeeI.empID == form.empID">
+                    <table>
+                        <tr>
+                            <th>Form ID</th>
+                            <th>Event Type</th>
+                            <th>Event Start Date</th>
+                            <th>Event Cost ($)</th>
+                            <th>Direct Supervisor Approval</th>
+                            <th>Department Head Approval</th>
+                            <th>Benefits Coordinator Approval</th>
+                        </tr>
+                        <tr>
+                            <td>{{form.formID}}</td>
+                            <td>{{form.eventType}}</td>
+                            <td>{{form.eventTime}}</td>
+                            <td>{{form.cost}}</td>
+                            <td>{{form.directSupervisorApproval}}</td>
+                            <td>{{form.departmentHeadApproval}}</td>
+                            <td>{{form.benCoApproval}}</td>
+                        </tr>
+                    </table>
+                    <input [(ngModel)]  = 'approved.image' type = 'file' name = 'browse'>
+                    <input type = 'submit'(click) = 'onClick5()'>
+                </div>
+            </div>
+        </div>
+        <div> <h3>Denied Reimbursement Requests</h3>
+            <div *ngFor = "let form of formy">
+                <div *ngIf="(form.benCoApproval == 'Denied' || form.directSupervisorApproval == 'Denied' || form.departmentHeadApproval == 'Denied') && employeeI.empID == form.empID">
+                    <table>
+                        <tr>
+                            <th>Form ID</th>
+                            <th>Event Type</th>
+                            <th>Event Start Date</th>
+                            <th>Event Cost ($)</th>
+                            <th>Direct Supervisor Approval</th>
+                            <th>Department Head Approval</th>
+                            <th>Benefits Coordinator Approval</th>
+                        </tr>
+                        <tr>
+                            <td>{{form.formID}}</td>
+                            <td>{{form.eventType}}</td>
+                            <td>{{form.eventTime}}</td>
+                            <td>{{form.cost}}</td>
+                            <td>{{form.directSupervisorApproval}}</td>
+                            <td>{{form.departmentHeadApproval}}</td>
+                            <td>{{form.benCoApproval}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div><h3>Messages</h3>
+            <div *ngFor = "let messagee of messages">
+                <div *ngIf = "messagee.empID == employeeI.empID && messagee.response == 1 && messagee.newAmt == messagee.oldAmt">
+                    <table>
+                        <tr>
+                            <th>Form ID</th>
+                            <th>Additional Information Request</th>
+                        </tr>
+                        <tr>
+                            <td>{{messagee.formID}}</td>
+                            <td>{{messagee.additionalInfo}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div>
+                    <h4>Input Additional Information</h4>
+                    <input [(ngModel)] = "message.formID" type = "text" placeholder = "Please enter the Form ID"><br>
+                    <textarea [(ngModel)] = "message.additionalInfo" type = "text" placeholder = "Please enter additional Information"></textarea><br>
+                    <input type = "submit"(click) = "onClick4()">
+            </div>
+        </div>
+        <div><h3>Altered Reimbursement Amounts</h3>
+            <div *ngFor = "let messagee of messages">
+                <div *ngIf = "messagee.empID == employeeI.empID && messagee.response == 1 && messagee.newAmt != messagee.oldAmt">
+                    <table>
+                        <tr>
+                            <th>Form ID</th>
+                            <th>Orignal Reimbursement Amount</th>
+                            <th>Altered Reimbursement Amount</th>
+                        </tr>
+                        <tr>
+                            <td>{{messagee.formID}}</td>
+                            <td>{{messagee.oldAmt}}</td>
+                            <td>{{messagee.newAmt}}</td>
+                        </tr>
+                    </table>
+                    <div>Do you accept the change? (Rejecting will remove your reimbursement request)<br><br>
+                        <input type  = "radio" id = "accept" name="approval">
+                        <label for="accept">Accept</label>
+                        <input type = "radio" id = "deny" name="approval">
+                        <label for="deny">Reject</label><br><br>
+                        <input type = "submit">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -182,7 +714,7 @@
         <h1>Welcome to the Benefits Coordinator Page {{employeeI.firstName}}</h1>
         <h2>Forms Awaiting Approval</h2>
         <div *ngFor = "let forma of formy">
-            <div *ngIf = "forma.benCoApproval == 'PENDING' && employeeI.empID != forma.empID">
+            <div *ngIf = "forma.benCoApproval == 'PENDING' && employeeI.empID != forma.empID && forma.directSupervisorApproval != 'Denied' && forma.departmentHeadApproval != 'Denied'">
                 <table>
                     <tr>
                         <th>Form ID</th>
@@ -199,8 +731,8 @@
                         <th>Reimbursement amount</th>
                         <th>Event Grading Format</th>
                         <th>Event Justification</th>
-                        <th>Branch</th>
-                        <th>Department</th>
+                        <th>Direct Supervisor Approval</th>
+                        <th>Department Head Approval</th>
                     </tr>
                     <tr>
                         <td>{{forma.formID}}</td>
@@ -217,8 +749,8 @@
                         <td>{{forma.rmbrsmntAmt}}</td>
                         <td>{{forma.gradeFormat}}</td>
                         <td>{{forma.justification}}</td>
-                        <td>{{forma.branch}}</td>
-                        <td>{{forma.department}}</td>
+                        <td>{{forma.directSupervisorApproval}}</td>
+                        <td>{{forma.departmentHeadApproval}}</td>
                     </tr>
                 </table>
             </div>
@@ -231,6 +763,215 @@
             <label for="deny">Deny</label><br>
             <textarea [(ngModel)] = "update.rejectionReason" rows = "4" cols = "50" placeholder = "Please provide denial reason"></textarea><br>
             <input type = "submit"(click) = "onClick2()">
+        </div>
+        <div>
+            <h3>Request Additonal Information? Update amount available? (Leave the amounts available blank if you are not updating the reimbursement amount)</h3>
+            <input [(ngModel)] = "message.formID" type = "text" placeholder = "Please enter the Form ID">
+            <input [(ngModel)] = "message.empID" type = "text" placeholder = "Please enter Employee ID">
+            <input [(ngModel)] = "message.oldAmt" type = "text" placeholder = "Enter old amount">
+            <input [(ngModel)] = "message.newAmt" type = "text" placeholder = "Enter new amount"><br>
+            <textarea [(ngModel)] = "message.additionalInfo" type = "text" placeholder = "Please enter what you would like additonal information on"></textarea><br>
+            <input type = "submit"(click) = "onClick3()">
+        </div>
+        <div *ngFor = "let message of messages">
+            <div *ngIf = "message.urgent == 1">
+                <h3>Urgent Reimbursement Requests</h3>
+                   Employee ID of the urgent request: {{message.empID}}
+            </div>
+        </div>
+        <div *ngFor = "let message of messages">
+            <div *ngIf = "message.response == 2">
+                <h3>Additonal Information Responses</h3>
+                <table>
+                    <tr>
+                        <th>Form ID</th>
+                        <th>Employee ID</th>
+                        <th>Response</th>
+                    </tr>
+                    <tr>
+                        <td>{{message.formID}}</td>
+                        <td>{{message.empID}}</td>
+                        <td>{{message.additionalInfo}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div>
+            <h2>Your total available reimbursement allowed amount for this year is ${{employeeI.amtAvail}}</h2>
+            <h3>Fill out this form to make a reimbursement request</h3>
+            <table>
+                <tr>
+                    <th>Employee ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Employee Type</th>
+                    <th>Event Type</th>
+                    <th>Event Start Date</th>
+                    <th>Event Location</th>
+                    <th>Event Description</th>
+                    <th>Event Cost</th>
+                    <th>Event Grading Format</th>
+                    <th>Event Justification</th>
+                </tr>
+                <tr>
+                    <td>{{employeeI.empID}}</td>
+                    <td>{{employeeI.firstName}}</td>
+                    <td>{{employeeI.lastName}}</td>
+                    <td>{{employeeI.email}}</td>
+                    <td>{{employeeI.type}}</td>
+                    <td><select [(ngModel)] = "form.eventType" required type = "text" >
+                        <option>Certification</option>
+                        <option>Technical Training</option>
+                        <option>University Courses</option>
+                        <option>Certification Preparation Classes</option>
+                        <option>Seminar</option>
+                        <option>Other</option>
+                    </select></td>
+                    <td><input [(ngModel)] = "form.eventTime"  type="datetime-local" id="date" required></td>
+                    <td><input [(ngModel)] = "form.location" required type = "text"></td>
+                    <td><input [(ngModel)] = "form.description"  required type = "text"></td>
+                    <td>$<input [(ngModel)] = "form.cost"  required type = "text"></td>
+                    <td><select [(ngModel)] = "form.benCoApproval" required  type="text">
+                        <option>Percentage Grading</option>
+                        <option>Letter Grading</option>
+                        <option>Mastery Grading</option>
+                        <option>Pass/Fail</option>
+                        <option>Standards Grading</option>
+                    </select></td>
+                    <td><input [(ngModel)] = "form.justification"  required  type = "text"></td>
+                </tr>
+            </table>
+            <div [hidden] = "isHidden">Your total reimbursement for this event is expected to be ${{reimbursement}}</div>
+            <button (click) = "onCalculate(form.eventType,form.cost)">Calculate Reimbursement Amount</button>
+            <input type = "submit"(click) = "onClick()">
+        </div>
+        <div> <h3>Pending Reimbursement Requests</h3>
+            <div *ngFor = "let form of formy">
+                <div *ngIf="employeeI.empID == form.empID && form.benCoApproval == 'PENDING' && form.directSupervisorApproval != 'Denied' && form.departmentHeadApproval !='Denied'">
+                    <table>
+                        <tr>
+                            <th>Form ID</th>
+                            <th>Event Type</th>
+                            <th>Event Start Date</th>
+                            <th>Event Cost ($)</th>
+                            <th>Direct Supervisor Approval</th>
+                            <th>Department Head Approval</th>
+                            <th>Benefits Coordinator Approval</th>
+                        </tr>
+                        <tr>
+                            <td>{{form.formID}}</td>
+                            <td>{{form.eventType}}</td>
+                            <td>{{form.eventTime}}</td>
+                            <td>{{form.cost}}</td>
+                            <td>{{form.directSupervisorApproval}}</td>
+                            <td>{{form.departmentHeadApproval}}</td>
+                            <td>{{form.benCoApproval}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div> <h3>Approved Reimbursement Requests</h3>
+            <div *ngFor = "let form of formy">
+                <div *ngIf="form.benCoApproval == 'Approved' && employeeI.empID == form.empID">
+                    <table>
+                        <tr>
+                            <th>Form ID</th>
+                            <th>Event Type</th>
+                            <th>Event Start Date</th>
+                            <th>Event Cost ($)</th>
+                            <th>Direct Supervisor Approval</th>
+                            <th>Department Head Approval</th>
+                            <th>Benefits Coordinator Approval</th>
+                        </tr>
+                        <tr>
+                            <td>{{form.formID}}</td>
+                            <td>{{form.eventType}}</td>
+                            <td>{{form.eventTime}}</td>
+                            <td>{{form.cost}}</td>
+                            <td>{{form.directSupervisorApproval}}</td>
+                            <td>{{form.departmentHeadApproval}}</td>
+                            <td>{{form.benCoApproval}}</td>
+                        </tr>
+                    </table>
+                    <input [(ngModel)]  = 'approved.image' type = 'file' name = 'browse'>
+                    <input type = 'submit'(click) = 'onClick5()'>
+                </div>
+            </div>
+        </div>
+        <div> <h3>Denied Reimbursement Requests</h3>
+            <div *ngFor = "let form of formy">
+                <div *ngIf="(form.benCoApproval == 'Denied' || form.directSupervisorApproval == 'Denied' || form.departmentHeadApproval == 'Denied') && employeeI.empID == form.empID">
+                    <table>
+                        <tr>
+                            <th>Form ID</th>
+                            <th>Event Type</th>
+                            <th>Event Start Date</th>
+                            <th>Event Cost ($)</th>
+                            <th>Direct Supervisor Approval</th>
+                            <th>Department Head Approval</th>
+                            <th>Benefits Coordinator Approval</th>
+                        </tr>
+                        <tr>
+                            <td>{{form.formID}}</td>
+                            <td>{{form.eventType}}</td>
+                            <td>{{form.eventTime}}</td>
+                            <td>{{form.cost}}</td>
+                            <td>{{form.directSupervisorApproval}}</td>
+                            <td>{{form.departmentHeadApproval}}</td>
+                            <td>{{form.benCoApproval}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div><h3>Messages</h3>
+            <div *ngFor = "let messagee of messages">
+                <div *ngIf = "messagee.empID == employeeI.empID && messagee.response == 1 && messagee.newAmt == messagee.oldAmt">
+                    <table>
+                        <tr>
+                            <th>Form ID</th>
+                            <th>Additional Information Request</th>
+                        </tr>
+                        <tr>
+                            <td>{{messagee.formID}}</td>
+                            <td>{{messagee.additionalInfo}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div>
+                    <h4>Input Additional Information</h4>
+                    <input [(ngModel)] = "message.formID" type = "text" placeholder = "Please enter the Form ID"><br>
+                    <textarea [(ngModel)] = "message.additionalInfo" type = "text" placeholder = "Please enter additional Information"></textarea><br>
+                    <input type = "submit"(click) = "onClick4()">
+            </div>
+        </div>
+        <div><h3>Altered Reimbursement Amounts</h3>
+            <div *ngFor = "let messagee of messages">
+                <div *ngIf = "messagee.empID == employeeI.empID && messagee.response == 1 && messagee.newAmt != messagee.oldAmt">
+                    <table>
+                        <tr>
+                            <th>Form ID</th>
+                            <th>Orignal Reimbursement Amount</th>
+                            <th>Altered Reimbursement Amount</th>
+                        </tr>
+                        <tr>
+                            <td>{{messagee.formID}}</td>
+                            <td>{{messagee.oldAmt}}</td>
+                            <td>{{messagee.newAmt}}</td>
+                        </tr>
+                    </table>
+                    <div>Do you accept the change? (Rejecting will remove your reimbursement request)<br><br>
+                        <input type  = "radio" id = "accept" name="approval">
+                        <label for="accept">Accept</label>
+                        <input type = "radio" id = "deny" name="approval">
+                        <label for="deny">Reject</label><br><br>
+                        <input type = "submit">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

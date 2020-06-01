@@ -4,6 +4,9 @@ import { EmployeesService } from '../employees.service';
 import { FormsService } from '../forms.service';
 import { Forms } from '../Forms';
 import { Update } from '../Update';
+import { Messages } from '../Messages';
+import { Router } from '@angular/router';
+import { Approved } from '../Approved';
 
 @Component({
   selector: 'app-employees',
@@ -11,7 +14,33 @@ import { Update } from '../Update';
   styleUrls: ['./employees.component.css']
 })
 export class EmployeesComponent implements OnInit {
+  constructor(private employeeservice: EmployeesService, private formsservice : FormsService, private router: Router) { }
 
+  ngOnInit(): void {
+    //this.getAllEmployees();
+    this.onloading();
+  }
+
+  // getAllEmployees(){
+  //   this.employeeservice.getEmployeesInfo().subscribe(returnEmployees => this.employees = returnEmployees);
+  // }
+  onloading(){
+    this.employeeI = this.employeeservice.getIndividualEmployee();
+    this.form.empID = this.employeeI.empID ;
+    this.form.firstName = this.employeeI.firstName;
+    this.form.lastName = this.employeeI.lastName;
+    this.form.email =this.employeeI.email;
+    this.form.type = this.employeeI.type;
+    this.form.empAvailAmt = this.employeeI.amtAvail;
+    this.form.department = this.employeeI.department;
+    this.form.branch = this.employeeI.branch;
+    this.formsservice.getFormData().subscribe(res => this.formy = res);
+    this.employeeservice.getMessages().subscribe(res => this.messages = res);
+  }
+
+  onClick0(){
+    this.router.navigate(['login']);
+  }
   employees: Employees[];
   employeeI: Employees = {
     empID: 400,
@@ -25,7 +54,7 @@ export class EmployeesComponent implements OnInit {
     department: '',
     branch: ''
   };
-
+  messages: Messages[];
   formy: Forms[];
   forms: Forms[];
 
@@ -54,28 +83,7 @@ export class EmployeesComponent implements OnInit {
     branch: ""
   }
   
-  constructor(private employeeservice: EmployeesService, private formsservice : FormsService) { }
-
-  ngOnInit(): void {
-    //this.getAllEmployees();
-    this.onloading();
-  }
-
-  // getAllEmployees(){
-  //   this.employeeservice.getEmployeesInfo().subscribe(returnEmployees => this.employees = returnEmployees);
-  // }
-  onloading(){
-    this.employeeI = this.employeeservice.getIndividualEmployee();
-    this.form.empID = this.employeeI.empID ;
-    this.form.firstName = this.employeeI.firstName;
-    this.form.lastName = this.employeeI.lastName;
-    this.form.email =this.employeeI.email;
-    this.form.type = this.employeeI.type;
-    this.form.empAvailAmt = this.employeeI.amtAvail;
-    this.form.department = this.employeeI.department;
-    this.form.branch = this.employeeI.branch;
-    this.formsservice.getFormData().subscribe(res => this.formy = res)
-  }
+  
   
 
 
@@ -96,9 +104,21 @@ export class EmployeesComponent implements OnInit {
     this.formsservice.addForm(this.form).subscribe(res => {
       if(res == "Alert"){
         window.alert('You must enter a week later')
+        this.employeeI.amtAvail = 1000;
       }
-      console.log(this.form.time);
     })
+    
+    
+    let newDate = new Date(this.form.eventTime);
+    var x = Date.now()
+    if((newDate.getTime() - x)<1209600000){ //2 weeks
+      console.log(newDate.getTime());
+      console.log("nani");
+      this.message.empID = this.form.empID;
+      console.log(this.message.empID);
+      this.message.urgent = 1;
+      this.formsservice.addMessage(this.message).subscribe();
+    }
       
     function reset(){
       window.alert("Your form has been sumbitted");
@@ -124,6 +144,7 @@ export class EmployeesComponent implements OnInit {
       this.form.departmentHeadApproval= "";
       this.form.benCoApproval= "";
       this.form.rejectionReason= "";
+      this.formsservice.getFormData().subscribe(res => this.formy = res);
   }
 
   isHidden = true;
@@ -210,8 +231,37 @@ export class EmployeesComponent implements OnInit {
     benCoApproval: "PENDING",
     rejectionReason: ""
   }
+
+  message:Messages = {
+    formID: null,
+    empID: null,
+    oldAmt:null,
+    newAmt: null,
+    urgent: null,
+    response: null,
+    additionalInfo: ""
+  }
   onClick2(){
-    console.log(this.update.formID)
     this.formsservice.dirSupUpdateForm(this.update).subscribe();
+  }
+
+  onClick3(){
+    this.message.response = 1;
+    this.formsservice.addMessage(this.message).subscribe();
+  }
+
+  onClick4(){
+    this.message.response = 2;
+    this.message.empID = this.employeeI.empID;
+    this.formsservice.addMessage(this.message).subscribe();
+  }
+
+  approved:Approved = {
+    formID:null,
+    empID:null,
+    image:null
+  }
+  onClick5(){
+    console.log(this.approved.image);
   }
 }

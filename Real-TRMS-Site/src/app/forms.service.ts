@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Forms } from './Forms';
 import { Update } from './Update';
+import { Messages } from './Messages';
 
 @Injectable({
   providedIn: 'root'
@@ -21,5 +22,9 @@ export class FormsService {
 
     dirSupUpdateForm(update:Update):Observable<any>{
       return this.httpclient.post<any>('http://localhost:8080/Real_TRMS_Project/employees', JSON.stringify(update));
+    }
+
+    addMessage(message:Messages):Observable<any>{
+      return this.httpclient.post<any>('http://localhost:8080/Real_TRMS_Project/messages', JSON.stringify(message));
     }
 }

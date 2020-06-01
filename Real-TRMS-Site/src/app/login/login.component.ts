@@ -28,11 +28,11 @@ export class LoginComponent implements OnInit {
     this.login.username = username;
     this.login.password = password;
     this.auth.getUserDetails(this.login).subscribe(res=> {
-      if (res.empID == 41){
+      if (res.empID == 0){
         window.alert('Invalid credentials')
       } else{
-        this.employeeservice.setIndividualEmployee(res);
         this.router.navigate(['employees']);
+        this.employeeservice.setIndividualEmployee(res);
       }
     });
   }
